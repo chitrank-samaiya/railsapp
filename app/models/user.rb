@@ -21,7 +21,7 @@ class User < ApplicationRecord
   attr_accessor :skill_set_attributes
 
   # --------- Callbacks ----------------------------------------------------
-  before_validation :try_provisioning_skill_sets
+  before_validation :try_populating_skill_sets
 
   # --------- Private methods ----------------------------------------------
 
@@ -32,6 +32,7 @@ class User < ApplicationRecord
 
     self.skill_sets = self.skill_set_attributes.collect do |skill_set_attributes|
       skill = Skill.where(id: skill_set_attributes[:id]).take
+      skill ||= Skill.where(name: skill_set_attributes[:name]).take
       skill ||= Skill.new(name:  skill_set_attributes[:name])
     end
   end
