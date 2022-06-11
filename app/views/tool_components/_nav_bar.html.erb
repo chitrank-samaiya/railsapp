@@ -1,0 +1,24 @@
+<nav class="navbar navbar-dark bg-dark">
+  <%= link_to root_path, class: "navbar-brand" do %>
+    <%= image_tag 'ims.png', class: "d-inline-block align-top" %>
+    <%= app_name %>
+  <% end %>
+  <%
+    menu_items = []
+    menu_items << {label: 'Admin', uri: '/admin'}
+    menu_items << {label: 'Jobs', uri: jobs_path}
+    menu_items << {label: 'Users', uri: users_path}
+  %>
+
+  <ul class="nav justify-content-end">
+    <% menu_items.each do |menu_item| %>
+      <li class="nav-item">
+        <% if menu_item[:uri] %>
+          <%= link_to menu_item[:label], menu_item[:uri], class: "nav-link", target: menu_item[:target] %>
+        <% else %>
+          <%= raw menu_item[:label] %>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+</nav>
