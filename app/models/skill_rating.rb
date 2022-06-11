@@ -1,8 +1,5 @@
 class SkillRating < ApplicationRecord
 
-  # --------- Stored attributes --------------------------------------------
-  store :other_attributes, accessors: [:remarks], coder: JSON
-
   # --------- Associations -------------------------------------------------
   belongs_to :skill
 
@@ -10,5 +7,5 @@ class SkillRating < ApplicationRecord
   has_many :interviews, through: :interview_skill_ratings
 
   # --------- Validations --------------------------------------------------
-  validates :rating, numericality: { in: 0..5 }, allow_nil: true
+  validates :rating, numericality: { greater_than_or_equal_to: 1, less_than_or_equal_to: 5 }, allow_nil: true
 end

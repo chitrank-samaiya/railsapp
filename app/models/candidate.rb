@@ -1,10 +1,14 @@
 class Candidate < User
 
+  # --------- Stored attributes --------------------------------------------
+  store :other_attributes, accessors: [:dob], coder: JSON
+
   # --------- Associations -------------------------------------------------
   has_many :interviews, dependent: :destroy
 
   # --------- Validations --------------------------------------------------
   validates :name, presence: true, length: {maximum: 16}
+  validates :dob, presence: true
 
   # --------- Scopes --------------------------------------------------
   scope :avg_skill_ratings_above_3, ->(job_id) {select(:id, :name, :email).joins(interviews: [:job, :skill_ratings])
