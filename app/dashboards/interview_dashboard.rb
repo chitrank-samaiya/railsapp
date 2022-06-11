@@ -13,8 +13,10 @@ class InterviewDashboard < Administrate::BaseDashboard
     job: Field::BelongsTo,
     skill_ratings: Field::HasMany,
     id: Field::Number,
-    round: Field::String,
-    other_attributes: Field::Text,
+    round: Field::Select.with_options(
+          collection: Interview::ROUND_SET
+      ),
+    remarks: Field::Text,
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
   }.freeze
@@ -40,7 +42,7 @@ class InterviewDashboard < Administrate::BaseDashboard
     skill_ratings
     id
     round
-    other_attributes
+    remarks
     created_at
     updated_at
   ].freeze
@@ -53,6 +55,7 @@ class InterviewDashboard < Administrate::BaseDashboard
     employee
     job
     round
+    remarks
   ].freeze
 
   # COLLECTION_FILTERS
