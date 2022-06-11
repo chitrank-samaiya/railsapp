@@ -8,7 +8,7 @@ class Candidate < User
 
   # --------- Validations --------------------------------------------------
   validates :name, presence: true, length: {maximum: 16}
-  validates :dob, presence: true
+  validates :dob, date: {before: proc {Date.today}}
 
   # --------- Scopes --------------------------------------------------
   scope :avg_skill_ratings_above_3, ->(job_id) {select(:id, :name, :email).joins(interviews: [:job, :skill_ratings])
