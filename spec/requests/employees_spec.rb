@@ -13,7 +13,7 @@ require 'rails_helper'
 # sticking to rails and rspec-rails APIs to keep things simple and stable.
 
 RSpec.describe "/employees", type: :request do
-let(:valid_attributes) {
+  let(:valid_attributes) {
     {name: "name", email: "email@example.com", experience: "8.3"}
   }
 
@@ -43,7 +43,7 @@ let(:valid_attributes) {
     context "with valid parameters" do
       it "creates a new Employee" do
         expect {
-          post "http://localhost:3000/employees.json", params: { employee: valid_attributes }
+          post "http://localhost:3000/employees.json", params: {employee: valid_attributes}
         }.to change(Employee, :count).by(1)
       end
     end
@@ -51,16 +51,15 @@ let(:valid_attributes) {
     context "with invalid parameters" do
       it "does not create a new Employee" do
         expect {
-          post "http://localhost:3000/employees.json", params: { employee: invalid_attributes }
+          post "http://localhost:3000/employees.json", params: {employee: invalid_attributes}
         }.to change(Employee, :count).by(0)
       end
 
-
       it "returns a unprocessable entity status" do
-        post "http://localhost:3000/employees.json", params: { employee: invalid_attributes }
+        post "http://localhost:3000/employees.json", params: {employee: invalid_attributes}
         expect(response).to have_http_status(:unprocessable_entity)
       end
-    
+
     end
   end
 
@@ -72,20 +71,20 @@ let(:valid_attributes) {
 
       it "updates the requested employee" do
         employee = Employee.create! valid_attributes
-        patch "http://localhost:3000/employees/#{employee.id}.json", params: { employee: new_attributes }
+        patch "http://localhost:3000/employees/#{employee.id}.json", params: {employee: new_attributes}
         employee.reload
         expect(response).to be_successful
       end
     end
 
     context "with invalid parameters" do
-    
+
       it "returns a unprocessable entity status" do
         employee = Employee.create! valid_attributes
-        patch "http://localhost:3000/employees/#{employee.id}.json", params: { employee: invalid_attributes }
+        patch "http://localhost:3000/employees/#{employee.id}.json", params: {employee: invalid_attributes}
         expect(response).to have_http_status(:unprocessable_entity)
       end
-    
+
     end
   end
 

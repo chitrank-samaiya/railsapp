@@ -13,7 +13,7 @@ require 'rails_helper'
 # sticking to rails and rspec-rails APIs to keep things simple and stable.
 
 RSpec.describe "/candidates", type: :request do
-  
+
   # This should return the minimal set of attributes required to create a valid
   # Candidate. As you add validations to Candidate, be sure to
   # adjust the attributes here as well.
@@ -47,7 +47,7 @@ RSpec.describe "/candidates", type: :request do
     context "with valid parameters" do
       it "creates a new Candidate" do
         expect {
-          post "http://localhost:3000/candidates.json", params: { candidate: valid_attributes }
+          post "http://localhost:3000/candidates.json", params: {candidate: valid_attributes}
         }.to change(Candidate, :count).by(1)
       end
     end
@@ -55,16 +55,15 @@ RSpec.describe "/candidates", type: :request do
     context "with invalid parameters" do
       it "does not create a new Candidate" do
         expect {
-          post "http://localhost:3000/candidates.json", params: { candidate: invalid_attributes }
+          post "http://localhost:3000/candidates.json", params: {candidate: invalid_attributes}
         }.to change(Candidate, :count).by(0)
       end
 
-
       it "returns a unprocessable entity status" do
-        post "http://localhost:3000/candidates.json", params: { candidate: invalid_attributes }
+        post "http://localhost:3000/candidates.json", params: {candidate: invalid_attributes}
         expect(response).to have_http_status(:unprocessable_entity)
       end
-    
+
     end
   end
 
@@ -76,20 +75,20 @@ RSpec.describe "/candidates", type: :request do
 
       it "updates the requested candidate" do
         candidate = Candidate.create! valid_attributes
-        patch "http://localhost:3000/candidates/#{candidate.id}.json", params: { candidate: new_attributes }
+        patch "http://localhost:3000/candidates/#{candidate.id}.json", params: {candidate: new_attributes}
         candidate.reload
         expect(response).to be_successful
       end
     end
 
     context "with invalid parameters" do
-    
+
       it "returns a unprocessable entity status" do
         candidate = Candidate.create! valid_attributes
-        patch "http://localhost:3000/candidates/#{candidate.id}.json", params: { candidate: invalid_attributes }
+        patch "http://localhost:3000/candidates/#{candidate.id}.json", params: {candidate: invalid_attributes}
         expect(response).to have_http_status(:unprocessable_entity)
       end
-    
+
     end
   end
 
