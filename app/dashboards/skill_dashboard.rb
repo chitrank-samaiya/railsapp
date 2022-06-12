@@ -8,12 +8,12 @@ class SkillDashboard < Administrate::BaseDashboard
   # which determines how the attribute is displayed
   # on pages throughout the dashboard.
   ATTRIBUTE_TYPES = {
-    candidates: Field::HasMany,
-    employees: Field::HasMany,
-    id: Field::Number,
-    name: Field::String,
-    created_at: Field::DateTime,
-    updated_at: Field::DateTime,
+      candidates: Field::HasMany,
+      employees: Field::HasMany,
+      id: Field::Number,
+      name: Field::String,
+      created_at: Field::DateTime,
+      updated_at: Field::DateTime,
   }.freeze
 
   # COLLECTION_ATTRIBUTES

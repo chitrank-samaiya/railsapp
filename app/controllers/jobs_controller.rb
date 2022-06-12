@@ -25,11 +25,11 @@ class JobsController < ApplicationController
 
     respond_to do |format|
       if @job.save
-        format.html { redirect_to job_url(@job), notice: "Job was successfully created." }
-        format.json { render :show, status: :created, location: @job }
+        format.html {redirect_to job_url(@job), notice: "Job was successfully created."}
+        format.json {render :show, status: :created, location: @job}
       else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @job.errors, status: :unprocessable_entity }
+        format.html {render :new, status: :unprocessable_entity}
+        format.json {render json: @job.errors, status: :unprocessable_entity}
       end
     end
   end
@@ -38,11 +38,11 @@ class JobsController < ApplicationController
   def update
     respond_to do |format|
       if @job.update(job_params)
-        format.html { redirect_to job_url(@job), notice: "Job was successfully updated." }
-        format.json { render :show, status: :ok, location: @job }
+        format.html {redirect_to job_url(@job), notice: "Job was successfully updated."}
+        format.json {render :show, status: :ok, location: @job}
       else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @job.errors, status: :unprocessable_entity }
+        format.html {render :edit, status: :unprocessable_entity}
+        format.json {render json: @job.errors, status: :unprocessable_entity}
       end
     end
   end
@@ -52,19 +52,20 @@ class JobsController < ApplicationController
     @job.destroy
 
     respond_to do |format|
-      format.html { redirect_to jobs_url, notice: "Job was successfully destroyed." }
-      format.json { head :no_content }
+      format.html {redirect_to jobs_url, notice: "Job was successfully destroyed."}
+      format.json {head :no_content}
     end
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_job
-      @job = Job.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def job_params
-      params.require(:job).permit(:title, :description, :published_at)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_job
+    @job = Job.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def job_params
+    params.require(:job).permit(:title, :description, :published_at)
+  end
 end

@@ -25,11 +25,11 @@ class InterviewsController < ApplicationController
 
     respond_to do |format|
       if @interview.save
-        format.html { redirect_to interview_url(@interview), notice: "Interview was successfully created." }
-        format.json { render :show, status: :created, location: @interview }
+        format.html {redirect_to interview_url(@interview), notice: "Interview was successfully created."}
+        format.json {render :show, status: :created, location: @interview}
       else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @interview.errors, status: :unprocessable_entity }
+        format.html {render :new, status: :unprocessable_entity}
+        format.json {render json: @interview.errors, status: :unprocessable_entity}
       end
     end
   end
@@ -38,11 +38,11 @@ class InterviewsController < ApplicationController
   def update
     respond_to do |format|
       if @interview.update(interview_params)
-        format.html { redirect_to interview_url(@interview), notice: "Interview was successfully updated." }
-        format.json { render :show, status: :ok, location: @interview }
+        format.html {redirect_to interview_url(@interview), notice: "Interview was successfully updated."}
+        format.json {render :show, status: :ok, location: @interview}
       else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @interview.errors, status: :unprocessable_entity }
+        format.html {render :edit, status: :unprocessable_entity}
+        format.json {render json: @interview.errors, status: :unprocessable_entity}
       end
     end
   end
@@ -52,19 +52,20 @@ class InterviewsController < ApplicationController
     @interview.destroy
 
     respond_to do |format|
-      format.html { redirect_to interviews_url, notice: "Interview was successfully destroyed." }
-      format.json { head :no_content }
+      format.html {redirect_to interviews_url, notice: "Interview was successfully destroyed."}
+      format.json {head :no_content}
     end
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_interview
-      @interview = Interview.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def interview_params
-      params.require(:interview).permit(:job_id, :candidate_id, :employee_id, :round, :remarks, skill_rating_attributes: [:id, :skill_id, :rating])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_interview
+    @interview = Interview.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def interview_params
+    params.require(:interview).permit(:job_id, :candidate_id, :employee_id, :round, :remarks, skill_rating_attributes: [:id, :skill_id, :rating])
+  end
 end

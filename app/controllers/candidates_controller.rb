@@ -25,11 +25,11 @@ class CandidatesController < ApplicationController
 
     respond_to do |format|
       if @candidate.save
-        format.html { redirect_to candidate_url(@candidate), notice: "Candidate was successfully created." }
-        format.json { render :show, status: :created, location: @candidate }
+        format.html {redirect_to candidate_url(@candidate), notice: "Candidate was successfully created."}
+        format.json {render :show, status: :created, location: @candidate}
       else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @candidate.errors, status: :unprocessable_entity }
+        format.html {render :new, status: :unprocessable_entity}
+        format.json {render json: @candidate.errors, status: :unprocessable_entity}
       end
     end
   end
@@ -38,11 +38,11 @@ class CandidatesController < ApplicationController
   def update
     respond_to do |format|
       if @candidate.update(candidate_params)
-        format.html { redirect_to candidate_url(@candidate), notice: "Candidate was successfully updated." }
-        format.json { render :show, status: :ok, location: @candidate }
+        format.html {redirect_to candidate_url(@candidate), notice: "Candidate was successfully updated."}
+        format.json {render :show, status: :ok, location: @candidate}
       else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @candidate.errors, status: :unprocessable_entity }
+        format.html {render :edit, status: :unprocessable_entity}
+        format.json {render json: @candidate.errors, status: :unprocessable_entity}
       end
     end
   end
@@ -52,8 +52,8 @@ class CandidatesController < ApplicationController
     @candidate.destroy
 
     respond_to do |format|
-      format.html { redirect_to candidates_url, notice: "Candidate was successfully destroyed." }
-      format.json { head :no_content }
+      format.html {redirect_to candidates_url, notice: "Candidate was successfully destroyed."}
+      format.json {head :no_content}
     end
   end
 
@@ -68,13 +68,14 @@ class CandidatesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_candidate
-      @candidate = Candidate.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def candidate_params
-      params.require(:candidate).permit(:name, :email, :dob, :experience, skill_set_attributes: [:id, :name])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_candidate
+    @candidate = Candidate.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def candidate_params
+    params.require(:candidate).permit(:name, :email, :dob, :experience, skill_set_attributes: [:id, :name])
+  end
 end

@@ -8,16 +8,16 @@ class CandidateDashboard < Administrate::BaseDashboard
   # which determines how the attribute is displayed
   # on pages throughout the dashboard.
   ATTRIBUTE_TYPES = {
-    skill_sets: Field::HasMany,
-    interviews: Field::HasMany,
-    id: Field::Number,
-    type: Field::String,
-    name: Field::String,
-    email: Field::String,
-    dob: Field::Date,
-    experience: Field::String,
-    created_at: Field::DateTime,
-    updated_at: Field::DateTime,
+      skill_sets: Field::HasMany,
+      interviews: Field::HasMany,
+      id: Field::Number,
+      type: Field::String,
+      name: Field::String,
+      email: Field::String,
+      dob: Field::Date,
+      experience: Field::String,
+      created_at: Field::DateTime,
+      updated_at: Field::DateTime,
   }.freeze
 
   # COLLECTION_ATTRIBUTES

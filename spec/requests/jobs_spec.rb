@@ -13,7 +13,7 @@ require 'rails_helper'
 # sticking to rails and rspec-rails APIs to keep things simple and stable.
 
 RSpec.describe "/jobs", type: :request do
-  
+
   # This should return the minimal set of attributes required to create a valid
   # Job. As you add validations to Job, be sure to
   # adjust the attributes here as well.
@@ -45,7 +45,7 @@ RSpec.describe "/jobs", type: :request do
     context "with valid parameters" do
       it "creates a new Job" do
         expect {
-          post "http://localhost:3000/jobs.json", params: { job: valid_attributes }
+          post "http://localhost:3000/jobs.json", params: {job: valid_attributes}
         }.to change(Job, :count).by(1)
       end
     end
@@ -53,16 +53,15 @@ RSpec.describe "/jobs", type: :request do
     context "with invalid parameters" do
       it "does not create a new Job" do
         expect {
-          post "http://localhost:3000/jobs.json", params: { job: invalid_attributes }
+          post "http://localhost:3000/jobs.json", params: {job: invalid_attributes}
         }.to change(Job, :count).by(0)
       end
 
-    
       it "returns a unprocessable entity status" do
-        post "http://localhost:3000/jobs.json", params: { job: invalid_attributes }
+        post "http://localhost:3000/jobs.json", params: {job: invalid_attributes}
         expect(response).to have_http_status(:unprocessable_entity)
       end
-    
+
     end
   end
 
@@ -74,20 +73,20 @@ RSpec.describe "/jobs", type: :request do
 
       it "updates the requested job" do
         job = Job.create! valid_attributes
-        patch "http://localhost:3000/jobs/#{job.id}.json", params: { job: new_attributes }
+        patch "http://localhost:3000/jobs/#{job.id}.json", params: {job: new_attributes}
         job.reload
         expect(response).to be_successful
       end
     end
 
     context "with invalid parameters" do
-    
+
       it "returns a unprocessable entity status" do
         job = Job.create! valid_attributes
-        patch "http://localhost:3000/jobs/#{job.id}.json", params: { job: invalid_attributes }
+        patch "http://localhost:3000/jobs/#{job.id}.json", params: {job: invalid_attributes}
         expect(response).to have_http_status(:unprocessable_entity)
       end
-    
+
     end
   end
 end

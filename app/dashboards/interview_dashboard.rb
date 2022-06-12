@@ -8,17 +8,17 @@ class InterviewDashboard < Administrate::BaseDashboard
   # which determines how the attribute is displayed
   # on pages throughout the dashboard.
   ATTRIBUTE_TYPES = {
-    candidate: Field::BelongsTo,
-    employee: Field::BelongsTo,
-    job: Field::BelongsTo,
-    skill_ratings: Field::HasMany,
-    id: Field::Number,
-    round: Field::Select.with_options(
+      candidate: Field::BelongsTo,
+      employee: Field::BelongsTo,
+      job: Field::BelongsTo,
+      skill_ratings: Field::HasMany,
+      id: Field::Number,
+      round: Field::Select.with_options(
           collection: Interview::ROUND_SET
       ),
-    remarks: Field::Text,
-    created_at: Field::DateTime,
-    updated_at: Field::DateTime,
+      remarks: Field::Text,
+      created_at: Field::DateTime,
+      updated_at: Field::DateTime,
   }.freeze
 
   # COLLECTION_ATTRIBUTES

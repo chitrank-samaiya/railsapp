@@ -13,13 +13,13 @@ require 'rails_helper'
 # sticking to rails and rspec-rails APIs to keep things simple and stable.
 
 RSpec.describe "/interviews", type: :request do
-  
+
   # This should return the minimal set of attributes required to create a valid
   # Interview. As you add validations to Interview, be sure to
   # adjust the attributes here as well.
-  let(:job) { Job.create(title: "test", published_at: Date.today)}
-  let(:candidate) { Candidate.create(name: "name", email: "email@example.com", experience: "8.3", dob: "1988-12-10")}
-  let(:employee) { Employee.create(name: "emp", email: "emp@example.com", experience: "10.3")}
+  let(:job) {Job.create(title: "test", published_at: Date.today)}
+  let(:candidate) {Candidate.create(name: "name", email: "email@example.com", experience: "8.3", dob: "1988-12-10")}
+  let(:employee) {Employee.create(name: "emp", email: "emp@example.com", experience: "10.3")}
 
   let(:valid_attributes) {
     {round: 'Round 1', job_id: job.id, candidate_id: candidate.id, employee_id: employee.id}
@@ -49,7 +49,7 @@ RSpec.describe "/interviews", type: :request do
     context "with valid parameters" do
       it "creates a new Interview" do
         expect {
-          post "http://localhost:3000/interviews.json", params: { interview: valid_attributes }
+          post "http://localhost:3000/interviews.json", params: {interview: valid_attributes}
         }.to change(Interview, :count).by(1)
       end
     end
@@ -57,16 +57,15 @@ RSpec.describe "/interviews", type: :request do
     context "with invalid parameters" do
       it "does not create a new Interview" do
         expect {
-          post "http://localhost:3000/interviews.json", params: { interview: invalid_attributes }
+          post "http://localhost:3000/interviews.json", params: {interview: invalid_attributes}
         }.to change(Interview, :count).by(0)
       end
 
-    
       it "returns a unprocessable entity status" do
-        post "http://localhost:3000/interviews.json", params: { interview: invalid_attributes }
+        post "http://localhost:3000/interviews.json", params: {interview: invalid_attributes}
         expect(response).to have_http_status(:unprocessable_entity)
       end
-    
+
     end
   end
 
@@ -78,20 +77,20 @@ RSpec.describe "/interviews", type: :request do
 
       it "updates the requested interview" do
         interview = Interview.create! valid_attributes
-        patch "http://localhost:3000/interviews/#{interview.id}.json", params: { interview: new_attributes }
+        patch "http://localhost:3000/interviews/#{interview.id}.json", params: {interview: new_attributes}
         interview.reload
         expect(response).to be_successful
       end
     end
 
     context "with invalid parameters" do
-    
+
       it "returns a unprocessable entity status" do
         interview = Interview.create! valid_attributes
-        patch "http://localhost:3000/interviews/#{interview.id}.json", params: { interview: invalid_attributes }
+        patch "http://localhost:3000/interviews/#{interview.id}.json", params: {interview: invalid_attributes}
         expect(response).to have_http_status(:unprocessable_entity)
       end
-    
+
     end
   end
 end

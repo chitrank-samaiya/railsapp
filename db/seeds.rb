@@ -7,7 +7,7 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 #
 
-job_1  = Job.create!(title: "Lead Developer", description: "This is posted today", published_at: Time.now)
+job_1 = Job.create!(title: "Lead Developer", description: "This is posted today", published_at: Time.now)
 job_2 = Job.create!(title: "Senior Developer", description: "This is posted today", published_at: Time.now)
 
 skill_1 = Skill.create!(name: 'ruby')

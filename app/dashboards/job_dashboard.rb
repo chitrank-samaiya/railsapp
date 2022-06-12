@@ -8,13 +8,13 @@ class JobDashboard < Administrate::BaseDashboard
   # which determines how the attribute is displayed
   # on pages throughout the dashboard.
   ATTRIBUTE_TYPES = {
-    interviews: Field::HasMany,
-    id: Field::String,
-    title: Field::String,
-    published_at: Field::DateTime,
-    description: Field::Text,
-    created_at: Field::DateTime,
-    updated_at: Field::DateTime,
+      interviews: Field::HasMany,
+      id: Field::String,
+      title: Field::String,
+      published_at: Field::DateTime,
+      description: Field::Text,
+      created_at: Field::DateTime,
+      updated_at: Field::DateTime,
   }.freeze
 
   # COLLECTION_ATTRIBUTES

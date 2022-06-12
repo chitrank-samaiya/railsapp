@@ -10,7 +10,6 @@ RSpec.describe CandidatesController, type: :routing do
       expect(get: "/candidates/1.json").to route_to("candidates#show", id: "1", format: "json")
     end
 
-
     it "routes to #create" do
       expect(post: "/candidates.json").to route_to(controller: 'candidates', action: 'create', format: "json")
     end
