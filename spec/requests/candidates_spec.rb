@@ -18,17 +18,18 @@ RSpec.describe "/candidates", type: :request do
   # Candidate. As you add validations to Candidate, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) {
-
+    {name: "name", email: "email@example.com", experience: "8.3", dob: "1988-12-10"}
   }
 
   let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
+    {name: "", email: "", experience: "", dob: nil}
   }
 
   describe "GET /index" do
     it "renders a successful response" do
       Candidate.create! valid_attributes
-      get candidates_url
+      get "http://localhost:3000/candidates.json"
+
       expect(response).to be_successful
     end
   end
@@ -36,22 +37,8 @@ RSpec.describe "/candidates", type: :request do
   describe "GET /show" do
     it "renders a successful response" do
       candidate = Candidate.create! valid_attributes
-      get candidate_url(candidate)
-      expect(response).to be_successful
-    end
-  end
+      get "http://localhost:3000/candidates/#{candidate.id}.json"
 
-  describe "GET /new" do
-    it "renders a successful response" do
-      get new_candidate_url
-      expect(response).to be_successful
-    end
-  end
-
-  describe "GET /edit" do
-    it "renders a successful response" do
-      candidate = Candidate.create! valid_attributes
-      get edit_candidate_url(candidate)
       expect(response).to be_successful
     end
   end
@@ -60,27 +47,22 @@ RSpec.describe "/candidates", type: :request do
     context "with valid parameters" do
       it "creates a new Candidate" do
         expect {
-          post candidates_url, params: { candidate: valid_attributes }
+          post "http://localhost:3000/candidates.json", params: { candidate: valid_attributes }
         }.to change(Candidate, :count).by(1)
-      end
-
-      it "redirects to the created candidate" do
-        post candidates_url, params: { candidate: valid_attributes }
-        expect(response).to redirect_to(candidate_url(Candidate.last))
       end
     end
 
     context "with invalid parameters" do
       it "does not create a new Candidate" do
         expect {
-          post candidates_url, params: { candidate: invalid_attributes }
+          post "http://localhost:3000/candidates.json", params: { candidate: invalid_attributes }
         }.to change(Candidate, :count).by(0)
       end
 
-    
-      it "renders a successful response (i.e. to display the 'new' template)" do
-        post candidates_url, params: { candidate: invalid_attributes }
-        expect(response).to be_successful
+
+      it "returns a unprocessable entity status" do
+        post "http://localhost:3000/candidates.json", params: { candidate: invalid_attributes }
+        expect(response).to have_http_status(:unprocessable_entity)
       end
     
     end
@@ -89,47 +71,26 @@ RSpec.describe "/candidates", type: :request do
   describe "PATCH /update" do
     context "with valid parameters" do
       let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
+        {name: "naam", email: "naam@example.com", experience: "9.3", dob: "1988-12-10"}
       }
 
       it "updates the requested candidate" do
         candidate = Candidate.create! valid_attributes
-        patch candidate_url(candidate), params: { candidate: new_attributes }
+        patch "http://localhost:3000/candidates/#{candidate.id}.json", params: { candidate: new_attributes }
         candidate.reload
-        skip("Add assertions for updated state")
-      end
-
-      it "redirects to the candidate" do
-        candidate = Candidate.create! valid_attributes
-        patch candidate_url(candidate), params: { candidate: new_attributes }
-        candidate.reload
-        expect(response).to redirect_to(candidate_url(candidate))
+        expect(response).to be_successful
       end
     end
 
     context "with invalid parameters" do
     
-      it "renders a successful response (i.e. to display the 'edit' template)" do
+      it "returns a unprocessable entity status" do
         candidate = Candidate.create! valid_attributes
-        patch candidate_url(candidate), params: { candidate: invalid_attributes }
-        expect(response).to be_successful
+        patch "http://localhost:3000/candidates/#{candidate.id}.json", params: { candidate: invalid_attributes }
+        expect(response).to have_http_status(:unprocessable_entity)
       end
     
     end
   end
 
-  describe "DELETE /destroy" do
-    it "destroys the requested candidate" do
-      candidate = Candidate.create! valid_attributes
-      expect {
-        delete candidate_url(candidate)
-      }.to change(Candidate, :count).by(-1)
-    end
-
-    it "redirects to the candidates list" do
-      candidate = Candidate.create! valid_attributes
-      delete candidate_url(candidate)
-      expect(response).to redirect_to(candidates_url)
-    end
-  end
 end
