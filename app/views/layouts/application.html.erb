@@ -6,18 +6,11 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
-    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
-    <%= javascript_include_tag 'application', 'data-turbo-track': 'reload' %>
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
-  <body class="d-flex flex-column">
-  <%= render(partial: 'tool_components/nav_bar') %>
-  <section class="container-fluid flex-grow mt-4">
-    <div class="container">
-      <%= render(partial: 'tool_components/flash_notice') %>
-      <%= yield %>
-    </div>
-  </section>
-  <%= render(partial: 'tool_components/footer') %>
+  <body>
+    <%= yield %>
   </body>
 </html>

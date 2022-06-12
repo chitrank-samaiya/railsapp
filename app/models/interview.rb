@@ -20,12 +20,27 @@ class Interview < ApplicationRecord
   # --------- Validations --------------------------------------------------
   validates :round, presence: true, inclusion: {in: ROUND_SET, message: "should be from the set of #{ROUND_SET.to_sentence(last_word_connector: ' or ')}(case sensitive)"}
 
-  # --------- Callbacks ----------------------------------------------------
-  after_create_commit :try_populating_skills_ratings_for_candidate
+  # --------- Transient attributes -----------------------------------------
+  attr_accessor :skill_rating_attributes
 
-  def try_populating_skills_ratings_for_candidate
+  # --------- Callbacks ----------------------------------------------------
+  after_create_commit :try_creating_skills_ratings_for_candidate
+  after_update_commit :try_updating_skills_ratings
+
+  # --------- Private ------------------------------------------------------
+
+  def try_creating_skills_ratings_for_candidate
     self.candidate.skill_sets.each do |skill|
       self.skill_ratings.where(skill_id: skill.id).first_or_create
+    end
+  end
+
+  def try_updating_skills_ratings
+    return unless self.skill_rating_attributes
+
+    self.skill_rating_attributes.collect do |skill_rating_attributes|
+      skill_rating = self.skill_ratings.where(id: skill_rating_attributes[:id]).take
+      skill_rating.update(rating: skill_rating_attributes[:rating]) if skill_rating && skill_rating_attributes[:rating]
     end
   end
 
