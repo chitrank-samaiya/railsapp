@@ -18,17 +18,17 @@ RSpec.describe "/jobs", type: :request do
   # Job. As you add validations to Job, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
+    {title: "Test", published_at: Date.today}
   }
 
   let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
+    {title: nil, published_at: nil}
   }
 
   describe "GET /index" do
     it "renders a successful response" do
       Job.create! valid_attributes
-      get jobs_url
+      get "http://localhost:3000/jobs.json"
       expect(response).to be_successful
     end
   end
@@ -36,22 +36,7 @@ RSpec.describe "/jobs", type: :request do
   describe "GET /show" do
     it "renders a successful response" do
       job = Job.create! valid_attributes
-      get job_url(job)
-      expect(response).to be_successful
-    end
-  end
-
-  describe "GET /new" do
-    it "renders a successful response" do
-      get new_job_url
-      expect(response).to be_successful
-    end
-  end
-
-  describe "GET /edit" do
-    it "renders a successful response" do
-      job = Job.create! valid_attributes
-      get edit_job_url(job)
+      get "http://localhost:3000/jobs/#{job.id}.json"
       expect(response).to be_successful
     end
   end
@@ -60,27 +45,22 @@ RSpec.describe "/jobs", type: :request do
     context "with valid parameters" do
       it "creates a new Job" do
         expect {
-          post jobs_url, params: { job: valid_attributes }
+          post "http://localhost:3000/jobs.json", params: { job: valid_attributes }
         }.to change(Job, :count).by(1)
-      end
-
-      it "redirects to the created job" do
-        post jobs_url, params: { job: valid_attributes }
-        expect(response).to redirect_to(job_url(Job.last))
       end
     end
 
     context "with invalid parameters" do
       it "does not create a new Job" do
         expect {
-          post jobs_url, params: { job: invalid_attributes }
+          post "http://localhost:3000/jobs.json", params: { job: invalid_attributes }
         }.to change(Job, :count).by(0)
       end
 
     
-      it "renders a successful response (i.e. to display the 'new' template)" do
-        post jobs_url, params: { job: invalid_attributes }
-        expect(response).to be_successful
+      it "returns a unprocessable entity status" do
+        post "http://localhost:3000/jobs.json", params: { job: invalid_attributes }
+        expect(response).to have_http_status(:unprocessable_entity)
       end
     
     end
@@ -89,47 +69,25 @@ RSpec.describe "/jobs", type: :request do
   describe "PATCH /update" do
     context "with valid parameters" do
       let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
+        {title: "Test_1", published_at: Date.today}
       }
 
       it "updates the requested job" do
         job = Job.create! valid_attributes
-        patch job_url(job), params: { job: new_attributes }
+        patch "http://localhost:3000/jobs/#{job.id}.json", params: { job: new_attributes }
         job.reload
-        skip("Add assertions for updated state")
-      end
-
-      it "redirects to the job" do
-        job = Job.create! valid_attributes
-        patch job_url(job), params: { job: new_attributes }
-        job.reload
-        expect(response).to redirect_to(job_url(job))
+        expect(response).to be_successful
       end
     end
 
     context "with invalid parameters" do
     
-      it "renders a successful response (i.e. to display the 'edit' template)" do
+      it "returns a unprocessable entity status" do
         job = Job.create! valid_attributes
-        patch job_url(job), params: { job: invalid_attributes }
-        expect(response).to be_successful
+        patch "http://localhost:3000/jobs/#{job.id}.json", params: { job: invalid_attributes }
+        expect(response).to have_http_status(:unprocessable_entity)
       end
     
-    end
-  end
-
-  describe "DELETE /destroy" do
-    it "destroys the requested job" do
-      job = Job.create! valid_attributes
-      expect {
-        delete job_url(job)
-      }.to change(Job, :count).by(-1)
-    end
-
-    it "redirects to the jobs list" do
-      job = Job.create! valid_attributes
-      delete job_url(job)
-      expect(response).to redirect_to(jobs_url)
     end
   end
 end
