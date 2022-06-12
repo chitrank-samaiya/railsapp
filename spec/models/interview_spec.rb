@@ -10,7 +10,6 @@ RSpec.describe Interview, type: :model do
 
   describe "Validations" do
     it "is valid with valid attributes" do
-      p subject
       expect(subject).to be_valid
     end
 

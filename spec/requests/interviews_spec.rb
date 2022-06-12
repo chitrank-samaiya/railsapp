@@ -17,18 +17,22 @@ RSpec.describe "/interviews", type: :request do
   # This should return the minimal set of attributes required to create a valid
   # Interview. As you add validations to Interview, be sure to
   # adjust the attributes here as well.
+  let(:job) { Job.create(title: "test", published_at: Date.today)}
+  let(:candidate) { Candidate.create(name: "name", email: "email@example.com", experience: "8.3", dob: "1988-12-10")}
+  let(:employee) { Employee.create(name: "emp", email: "emp@example.com", experience: "10.3")}
+
   let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
+    {round: 'Round 1', job_id: job.id, candidate_id: candidate.id, employee_id: employee.id}
   }
 
   let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
+    {round: "", job_id: nil, candidate_id: nil, employee_id: nil}
   }
 
   describe "GET /index" do
     it "renders a successful response" do
       Interview.create! valid_attributes
-      get interviews_url
+      get "http://localhost:3000/interviews.json"
       expect(response).to be_successful
     end
   end
@@ -36,22 +40,7 @@ RSpec.describe "/interviews", type: :request do
   describe "GET /show" do
     it "renders a successful response" do
       interview = Interview.create! valid_attributes
-      get interview_url(interview)
-      expect(response).to be_successful
-    end
-  end
-
-  describe "GET /new" do
-    it "renders a successful response" do
-      get new_interview_url
-      expect(response).to be_successful
-    end
-  end
-
-  describe "GET /edit" do
-    it "renders a successful response" do
-      interview = Interview.create! valid_attributes
-      get edit_interview_url(interview)
+      get "http://localhost:3000/interviews/#{interview.id}.json"
       expect(response).to be_successful
     end
   end
@@ -60,27 +49,22 @@ RSpec.describe "/interviews", type: :request do
     context "with valid parameters" do
       it "creates a new Interview" do
         expect {
-          post interviews_url, params: { interview: valid_attributes }
+          post "http://localhost:3000/interviews.json", params: { interview: valid_attributes }
         }.to change(Interview, :count).by(1)
-      end
-
-      it "redirects to the created interview" do
-        post interviews_url, params: { interview: valid_attributes }
-        expect(response).to redirect_to(interview_url(Interview.last))
       end
     end
 
     context "with invalid parameters" do
       it "does not create a new Interview" do
         expect {
-          post interviews_url, params: { interview: invalid_attributes }
+          post "http://localhost:3000/interviews.json", params: { interview: invalid_attributes }
         }.to change(Interview, :count).by(0)
       end
 
     
-      it "renders a successful response (i.e. to display the 'new' template)" do
-        post interviews_url, params: { interview: invalid_attributes }
-        expect(response).to be_successful
+      it "returns a unprocessable entity status" do
+        post "http://localhost:3000/interviews.json", params: { interview: invalid_attributes }
+        expect(response).to have_http_status(:unprocessable_entity)
       end
     
     end
@@ -89,47 +73,25 @@ RSpec.describe "/interviews", type: :request do
   describe "PATCH /update" do
     context "with valid parameters" do
       let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
+        {round: 'Round 2'}
       }
 
       it "updates the requested interview" do
         interview = Interview.create! valid_attributes
-        patch interview_url(interview), params: { interview: new_attributes }
+        patch "http://localhost:3000/interviews/#{interview.id}.json", params: { interview: new_attributes }
         interview.reload
-        skip("Add assertions for updated state")
-      end
-
-      it "redirects to the interview" do
-        interview = Interview.create! valid_attributes
-        patch interview_url(interview), params: { interview: new_attributes }
-        interview.reload
-        expect(response).to redirect_to(interview_url(interview))
+        expect(response).to be_successful
       end
     end
 
     context "with invalid parameters" do
     
-      it "renders a successful response (i.e. to display the 'edit' template)" do
+      it "returns a unprocessable entity status" do
         interview = Interview.create! valid_attributes
-        patch interview_url(interview), params: { interview: invalid_attributes }
-        expect(response).to be_successful
+        patch "http://localhost:3000/interviews/#{interview.id}.json", params: { interview: invalid_attributes }
+        expect(response).to have_http_status(:unprocessable_entity)
       end
     
-    end
-  end
-
-  describe "DELETE /destroy" do
-    it "destroys the requested interview" do
-      interview = Interview.create! valid_attributes
-      expect {
-        delete interview_url(interview)
-      }.to change(Interview, :count).by(-1)
-    end
-
-    it "redirects to the interviews list" do
-      interview = Interview.create! valid_attributes
-      delete interview_url(interview)
-      expect(response).to redirect_to(interviews_url)
     end
   end
 end
