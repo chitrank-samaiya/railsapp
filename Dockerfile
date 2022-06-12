@@ -14,7 +14,7 @@ WORKDIR /gem_playground
 
 RUN gem install bundler
 COPY Gemfile* ./
-RUN bundle update --bundler
+#RUN bundle update --bundler
 RUN bundle install
 
 RUN mkdir -p /app
