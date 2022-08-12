@@ -1,25 +1,47 @@
-# README
+## Interview Management System
 
-Basic Requirements:
+### How to  run the application via docker
+0. Git clone/update ims repository. 
+    
+    ```git clone git@github.com:chitrank-samaiya/railsapp.git ../ims```
 
-* Ruby version - ruby 2.7.5p203
 
-* System dependencies - Mac / Linux / Ubuntu
+1. To build and run ims and db containers 
+    
+    ```docker-compose up```
 
-* Database creation - rake db:create
+2. To seed the data (required after first run) 
+    
+    ```docker-compose exec ims rake db:seed```
 
-* Test Case - bundle exec rspec
+3. To bring all the containers down 
+    
+    ```docker-compose down```
 
-Evaluate factor
+4. To build only IMS containers 
+    
+    ```docker-compose build ims```
 
-* Core Ruby - Creating Class / Creating Module / Use of Oops
-* Rails - Name convection and use of rails existing function and feature
-* Database - Associations (STI / Polymorphic Association etc)
-* Programming Logic
-* Metaprogramming / Rspec / Git Commit History (Additional Bonus)
+5. To bring up db instance only 
+    
+    ```docker-compose up db```
 
-Steps:
+6. To execute rails console 
+    
+    ```docker-compose exec ims rails console```
 
-1. Take a fork of this repo or download it
-2. Do the coding as per exercise provide by HR
-3. Submit the code to your fork and share link or please create a zip file of git repo and submit the same to HR
+6. To execute rails dbconsole 
+    
+    ```docker-compose exec ims rails dbconsole```
+
+7. To get shell access on ims 
+    
+    ```docker-compose exec ims bash```
+
+7. To run specs 
+    
+    ```docker-compose exec ims rspec .```
+
+8. To access db's mysql over host 
+    
+    ```mysql -u root -proot -h 127.0.0.1 -P 3307```
